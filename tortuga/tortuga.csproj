@@ -1191,6 +1191,12 @@
     <Content Include="Views\Account\_LoginLayout.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\Partial\Dashboard\LeftPane.cshtml" />
+    <Content Include="Views\Partial\Dashboard\LeftMenu.cshtml" />
+    <Content Include="Views\Partial\Dashboard\Header.cshtml" />
+    <Content Include="Views\Partial\Dashboard\TopSearch.cshtml" />
+    <Content Include="Views\Partial\Dashboard\RightMenu.cshtml" />
+    <Content Include="Views\Partial\Dashboard\Breadcrumb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@ namespace tortuga.Controllers
     {
         //
         // GET: /Dashboard/
-
+        [Authorize]
         public ActionResult Index()
         {
             return View();

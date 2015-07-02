@@ -1,0 +1,45 @@
+﻿@model tortuga.Models.LoginModel
+
+@{
+    Layout = "_LoginLayout.cshtml";
+    ViewBag.Title = "Log in";
+}
+
+
+<section id="loginForm">
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl },FormMethod.Post, new {@class="form-signin"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <section>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                @Html.TextBoxFor(m => m.UserName, new {Class="form-control", Placeholder="Username"})
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-key"></i>
+                </div>
+                @Html.PasswordFor(m => m.Password, new {Class="form-control", Placeholder="Password"})
+            </div>
+            <button class="btn btn-lg btn-theme-inverse btn-block" type="submit" id="sign-in">Sign in</button>
+        </section>
+        <section class="clearfix">
+            <div class="iCheck pull-left" data-color="red">
+                <input type="checkbox" checked>
+                <label>Remember</label>
+            </div>
+            <a href="#" class="pull-right help">Forget Passwinput-groupord? </a>
+        </section>
+        <span class="or" data-text="Or"></span>
+        <button class="btn btn-lg  btn-inverse btn-block" type="button"> New account </button>
+
+    <p>
+        @Html.ActionLink("Register", "Register") if you don't have an account.
+    </p>
+}
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -7,9 +7,12 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
+using Mindscape.LightSpeed;
+using tortuga.Data;
 using WebMatrix.WebData;
 using tortuga.Filters;
 using tortuga.Models;
+using UserProfile = tortuga.Models.UserProfile;
 
 namespace tortuga.Controllers
 {
@@ -17,6 +20,7 @@ namespace tortuga.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+
         //
         // GET: /Account/Login
 

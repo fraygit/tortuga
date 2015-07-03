@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<minimalLanguageDiagram dslVersion="1.1.0.0" absoluteBounds="0, 0, 11, 8.5" name="TortugaModel">
+  <modelMoniker name="/TortugaModel" />
+  <nestedChildShapes>
+    <entityShape Id="d31bf9b6-e2b9-4b96-b35a-b1d333f84a11" absoluteBounds="2, 2.5, 1.5, 0.70230143229166675">
+      <entityMoniker name="/TortugaModel/UserProfile" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b528fe0e-428d-4d18-8f62-8100aa9ad8e3" absoluteBounds="2.015, 2.91, 1.4700000000000002, 0.19230143229166666" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <entityShape Id="92838092-b820-47ff-82b2-669d5751013e" absoluteBounds="4.75, 4.125, 1.5, 0.70230143229166675">
+      <entityMoniker name="/TortugaModel/Organisation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="54e92514-285c-4dc6-8f0f-a88c39b56284" absoluteBounds="4.765, 4.535, 1.4700000000000002, 0.19230143229166666" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <throughAssociationConnector edgePoints="[(2.75 : 3.20230143229167); (2.75 : 4.47615071614583); (4.75 : 4.47615071614583)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <throughAssociationMoniker Id="b5834e83-c3c2-4c2a-b557-4437ea734304" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="d31bf9b6-e2b9-4b96-b35a-b1d333f84a11" />
+        <entityShapeMoniker Id="92838092-b820-47ff-82b2-669d5751013e" />
+      </nodes>
+    </throughAssociationConnector>
+  </nestedChildShapes>
+</minimalLanguageDiagram>

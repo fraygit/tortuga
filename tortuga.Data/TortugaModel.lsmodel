@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.1.0.0" name="TortugaModel" targetNamespace="tortuga.Data" databaseProvider="SqlServer2008" connectionString="Data Source=.;Initial Catalog=tortuga_dev;Persist Security Info=True;User ID=tortuga;Password=tortuga;Pooling=False" pluralizedInDatabase="false" mediumTrustCompatibility="false" xmlns="http://namespaces.mindscape.co.nz/lightspeed">
+  <entities>
+    <entity name="UserProfile" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="UserName" privateSetter="false">
+          <validations>
+            <presenceValidation />
+            <uniquenessValidation />
+            <lengthValidation minimumLength="0" maximumLength="56" />
+          </validations>
+        </entityProperty>
+      </entityProperties>
+      <throughAssociationTargets>
+        <throughAssociation Id="b5834e83-c3c2-4c2a-b557-4437ea734304" sourceCollectionName="UserProfiles" targetCollectionName="Organisations" autoThroughEntity="UserProfileOrganisation">
+          <entityMoniker name="/TortugaModel/Organisation" />
+        </throughAssociation>
+      </throughAssociationTargets>
+    </entity>
+    <entity name="Organisation" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="Name" privateSetter="false" />
+      </entityProperties>
+    </entity>
+  </entities>
+</model>

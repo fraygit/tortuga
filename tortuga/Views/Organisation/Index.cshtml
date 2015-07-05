@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-6">
+    <section class="panel corner-flip">
+        <header class="panel-heading sm" data-color="theme-inverse">
+            <h2>Create Organisation
+            </h2>
+        </header>
+        <div class="panel-tools color" align="right" data-toolscolor="#4EA582">
+            <ul class="tooltip-area">
+                <li><a href="javascript:void(0)" class="btn btn-collapse" title="" data-original-title="Collapse"><i class="fa fa-sort-amount-asc"></i></a></li>
+                <li><a href="javascript:void(0)" class="btn btn-reload" title="" data-original-title="Reload"><i class="fa fa-retweet"></i></a></li>
+                <li><a href="javascript:void(0)" class="btn btn-close" title="" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" data-collabel="3" data-alignlabel="left">
+                <div class="form-group">
+                    <label class="control-label col-md-3" style="text-align: left;">Name</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="Organisation name" id="txtName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" style="text-align: left;">Description</label>
+                    <div class="col-md-9">
+                        <textarea class="form-control" rows="3" id="txtDescription"></textarea>
+                    </div>
+                </div>
+                <div class="form-group offset">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-primary" id="btnCreateOrganisaion">Submit</button>
+                        <button type="reset" class="btn">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="flip"></div>
+    </section>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script language="javascript">
+        $("#btnCreateOrganisaion").click(function() {
+            var orgName = $("#txtName").val();
+            var orgDesc = $("#txtDescription").val();
+
+            $.ajax({
+                url: '@Url.Action("Add", "Organisation")',
+                data: { name: orgName, description: orgDesc },
+                method: 'POST',
+                success: function(result) {
+                    var d = result;
+                },
+                error: function(a, error) {
+                    var f = error;
+                }
+
+            });
+        });
+    </script>
+}

@@ -78,6 +78,7 @@ namespace tortuga.Data
     #region Fields
   
     private string _name;
+    private string _description;
 
     #endregion
     
@@ -85,6 +86,8 @@ namespace tortuga.Data
     
     /// <summary>Identifies the Name entity attribute.</summary>
     public const string NameField = "Name";
+    /// <summary>Identifies the Description entity attribute.</summary>
+    public const string DescriptionField = "Description";
 
 
     #endregion
@@ -125,6 +128,13 @@ namespace tortuga.Data
     {
       get { return Get(ref _name, "Name"); }
       set { Set(ref _name, value, "Name"); }
+    }
+
+    [System.Diagnostics.DebuggerNonUserCode]
+    public string Description
+    {
+      get { return Get(ref _description, "Description"); }
+      set { Set(ref _description, value, "Description"); }
     }
 
     #endregion

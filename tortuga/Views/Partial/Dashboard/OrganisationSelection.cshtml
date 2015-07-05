@@ -1,0 +1,28 @@
+﻿@model List<tortuga.Data.Organisation>
+
+
+<ul class="nav navbar-nav nav-main-xs">
+    <li class="dropdown">
+        @if (Model.Any())
+        {
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+                <em><strong>@Model.First().Name</strong></em> <i class="dropdown-icon fa fa-angle-down"></i>
+            </a>
+        }
+        else
+        {
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+                <em><strong>No organisation set</strong></em> <i class="dropdown-icon fa fa-angle-down"></i>
+            </a>
+        }
+        <ul class="dropdown-menu pull-right icon-right arrow">
+            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+            <li><a href="#"><i class="fa fa-cog"></i> Setting </a></li>
+            <li><a href="#"><i class="fa fa-bookmark"></i> Bookmarks</a></li>
+            <li><a href="#"><i class="fa fa-money"></i> Make a Deposit</a></li>
+            <li class="divider"></li>
+            <li><a href="@Url.Action("Index", "Organisation")"><i class="fa fa-sign-out"></i> Manage organisation </a></li>
+        </ul>
+        <!-- //dropdown-menu-->
+    </li>
+</ul>

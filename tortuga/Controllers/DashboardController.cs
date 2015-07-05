@@ -50,5 +50,18 @@ namespace tortuga.Controllers
             return PartialView("~/Views/Partial/Dashboard/LeftPane.cshtml", profile);
         }
 
+        [ChildActionOnly]
+        public ActionResult OrganisationSelect()
+        {
+            _context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
+            List<Organisation> organisation;
+            using (var data = _context.CreateUnitOfWork())
+            {
+                var userProfile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
+                organisation = userProfile.Organisations.ToList();
+            }
+            return PartialView("~/Views/Partial/Dashboard/OrganisationSelection.cshtml", organisation);
+        }
+
     }
 }

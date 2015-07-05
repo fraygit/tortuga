@@ -187,6 +187,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrganisationController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1200,6 +1201,8 @@
     <Content Include="Views\Partial\Dashboard\TopSearch.cshtml" />
     <Content Include="Views\Partial\Dashboard\RightMenu.cshtml" />
     <Content Include="Views\Partial\Dashboard\Breadcrumb.cshtml" />
+    <Content Include="Views\Partial\Dashboard\OrganisationSelection.cshtml" />
+    <Content Include="Views\Organisation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

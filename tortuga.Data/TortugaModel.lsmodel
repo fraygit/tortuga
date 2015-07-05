@@ -20,6 +20,7 @@
     <entity name="Organisation" identityType="Int32" cacheExpiry="0">
       <entityProperties>
         <entityProperty name="Name" privateSetter="false" />
+        <entityProperty name="Description" privateSetter="false" />
       </entityProperties>
     </entity>
   </entities>

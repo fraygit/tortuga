@@ -17,6 +17,12 @@
             </ul>
         </div>
         <div class="panel-body">
+            <div class="alert alert-success" style="display:none;">
+                <strong>Well done!</strong> You successfully created an organisation.
+            </div>
+            <div class="alert alert-danger" style="display:none;">
+                <strong>Oh snap!</strong> <span class="alert-error-message">Change a few things up and try submitting again.</span>
+            </div>
             <form class="form-horizontal" data-collabel="3" data-alignlabel="left">
                 <div class="form-group">
                     <label class="control-label col-md-3" style="text-align: left;">Name</label>
@@ -32,7 +38,7 @@
                 </div>
                 <div class="form-group offset">
                     <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn btn-primary" id="btnCreateOrganisaion">Submit</button>
+                        <button type="button" class="btn btn-primary" id="btnCreateOrganisaion">Add</button>
                         <button type="reset" class="btn">Cancel</button>
                     </div>
                 </div>
@@ -54,12 +60,16 @@
             $.ajax({
                 url: '@Url.Action("Add", "Organisation")',
                 data: { name: orgName, description: orgDesc },
+                dataType: 'json',
                 method: 'POST',
                 success: function(result) {
-                    var d = result;
+                    $(".alert-danger").hide();
+                    $(".alert-success").show();
                 },
-                error: function(a, error) {
-                    var f = error;
+                error: function(error) {
+                    $(".alert-success").hide();
+                    $(".alert-error-message").text(error.responseJSON.responseText);
+                    $(".alert-danger").show();
                 }
 
             });

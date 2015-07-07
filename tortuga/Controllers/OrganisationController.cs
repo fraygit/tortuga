@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mindscape.LightSpeed;
 using tortuga.Data;
+using System.Net;
 
 namespace tortuga.Controllers
 {
@@ -25,19 +26,22 @@ namespace tortuga.Controllers
             _context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
             using (var data = _context.CreateUnitOfWork())
             {
-                //User.Identity
                 var profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
 
-                //var org = data.Organisations.Where(n => n.UserProfiles.Any(y => y.UserName == User.Identity.Name));
                 if (!profile.Organisations.Any(n => n.Name == name))
                 {
-                    //var profile = data.FindById()
                     Organisation newOrg = new Organisation {Name = name, Description = description};
                     profile.Organisations.Add(newOrg);
                     data.SaveChanges();
-                    return Json(new { Error = string.Empty }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, responseText = "Organisation created successfully." }, JsonRequestBehavior.AllowGet);
                 }
-                return Json(new {Error = "Organisation already exists."}, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
+                }
+                
+                return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
             }
         }
 

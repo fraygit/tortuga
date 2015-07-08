@@ -1,6 +1,22 @@
-﻿<ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Library</a></li>
-    <li class="active">Data</li>
+﻿@using tortuga.Common.Helper
+@model string[]
+          
+
+@{
+    var url = string.Empty;
+}
+
+<ol class="breadcrumb">
+    @foreach (var item in Model.Skip(1))
+    {
+        if (item == string.Empty || item.ToLower() == "dashboard")
+        {
+            url = "/dashboard/";
+            <li><a href="/">Home</a></li>
+            continue;
+        }
+        url += string.Format("{0}/", item);
+        <li><a href="@url">@CustomHelper.UppercaseFirst(item)</a></li>
+    }
 </ol>
 <!-- //breadcrumb-->

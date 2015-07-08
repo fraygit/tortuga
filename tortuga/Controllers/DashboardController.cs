@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Mindscape.LightSpeed;
 using tortuga.Data;
+using tortuga.Models;
 
 namespace tortuga.Controllers
 {
@@ -41,13 +42,21 @@ namespace tortuga.Controllers
         public ActionResult LeftPane()
         {
             _context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
-            UserProfile profile;
+            Data.UserProfile profile;
             using (var data = _context.CreateUnitOfWork())
             {
                 profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
                 
             }
             return PartialView("~/Views/Partial/Dashboard/LeftPane.cshtml", profile);
+        }
+
+        [ChildActionOnly]
+        public ActionResult Breadcrumb()
+        {
+            var currentPage = HttpContext.Request.Url.AbsolutePath;
+
+            return PartialView("~/Views/Partial/Dashboard/Breadcrumb.cshtml", currentPage.Split('/'));
         }
 
         [ChildActionOnly]

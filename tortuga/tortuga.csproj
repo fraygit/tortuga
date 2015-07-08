@@ -184,6 +184,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\Helper\CustomHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -193,6 +194,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BreadcrumbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +251,8 @@
     <Content Include="Content\assets\img\overview.jpg" />
     <Content Include="Content\assets\img\overview.png" />
     <Content Include="Content\assets\img\overview2x.jpg" />
+    <Content Include="Content\assets\img\profile.jpg" />
+    <Content Include="Content\assets\img\profile.png" />
     <Content Include="Content\assets\img\switch.png" />
     <Content Include="Content\assets\img\theme-pics\fl1.png" />
     <Content Include="Content\assets\img\theme-pics\fl2.png" />

@@ -2,3 +2,5 @@ tortuga/bin/
 tortuga/obj/
 tortuga.Data/obj/
 tortuga.Data/bin/
+tortuga.MongoData/obj/
+tortuga.MongoData/bin/

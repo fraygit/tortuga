@@ -16,13 +16,21 @@ namespace tortuga.MongoData.Entities.Service
 
         public ConnectionHandler()
         {
-            const string connectionString = "mongodb:localhost";
+            try
+            {
+                const string connectionString = "mongodb://localhost:27017";
 
-            var mongoClient = new MongoClient(connectionString);
+                var mongoClient = new MongoClient(connectionString);
 
-            var db = mongoClient.GetDatabase("tortugadb");
+                var db = mongoClient.GetDatabase("tortugadb");
 
-            MongoCollection = db.GetCollection<T>(typeof(T).Name.ToLower() + "s");
+                MongoCollection = db.GetCollection<T>(typeof(T).Name.ToLower() + "s");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Unable to connect to the database. Please contact your administrator.");
+            }
+
         }
     }
 }

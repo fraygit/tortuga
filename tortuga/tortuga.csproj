@@ -1226,6 +1226,10 @@
       <Project>{86501d3b-1eb0-4dd4-be0d-de21029dcd47}</Project>
       <Name>tortuga.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\tortuga.MongoData\tortuga.MongoData.csproj">
+      <Project>{9fee57f3-65cb-4ae0-a52e-0f71ccb92127}</Project>
+      <Name>tortuga.MongoData</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

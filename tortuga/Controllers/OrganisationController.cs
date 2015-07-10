@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mindscape.LightSpeed;
+//using Mindscape.LightSpeed;
 using tortuga.Data;
 using System.Net;
+using tortuga.MongoData.Entities.Repository;
 
 namespace tortuga.Controllers
 {
     public class OrganisationController : Controller
     {
-        private static LightSpeedContext<TortugaModelUnitOfWork> _context;
+        //private static LightSpeedContext<TortugaModelUnitOfWork> _context;
         //
         // GET: /Organisation/
 
@@ -23,26 +24,31 @@ namespace tortuga.Controllers
         [HttpPost]
         public ActionResult Add(string name, string description)
         {
-            _context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
-            using (var data = _context.CreateUnitOfWork())
-            {
-                var profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
 
-                if (!profile.Organisations.Any(n => n.Name == name))
-                {
-                    Organisation newOrg = new Organisation {Name = name, Description = description};
-                    profile.Organisations.Add(newOrg);
-                    data.SaveChanges();
-                    return Json(new { success = true, responseText = "Organisation created successfully." }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
-                }
+
+            //_context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
+            //using (var data = _context.CreateUnitOfWork())
+            //{
+                //var profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
+
+                //if (!profile.Organisations.Any(n => n.Name == name))
+                //{
+                //    Organisation newOrg = new Organisation {Name = name, Description = description};
+                //    profile.Organisations.Add(newOrg);
+                //    data.SaveChanges();
+                //    return Json(new { success = true, responseText = "Organisation created successfully." }, JsonRequestBehavior.AllowGet);
+                //}
+                //else
+                //{
+                //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                //    return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
+                //}
+
+                var orgRepo = new OrganisationRepository();
+                orgRepo.Create(new MongoData.Entities.Model.Organisation { Name = "Test", Description = "Test desc" });
                 
                 return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
-            }
+            //}
         }
 
     }

@@ -11,6 +11,11 @@ namespace tortuga.MongoData.Entities.Service
     {
         protected readonly ConnectionHandler<T> ConnectionHandler;
 
+        protected EntityService()
+        {
+            ConnectionHandler = new ConnectionHandler<T>();
+        }
+
         public virtual void Create(T entity)
         {
             var result = this.ConnectionHandler.MongoCollection.InsertOneAsync(entity);

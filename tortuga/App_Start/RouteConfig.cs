@@ -16,6 +16,12 @@ namespace tortuga
 
 
             routes.MapRoute(
+                name: "Customisations",
+                url: "Dashboard/Customisations/{controller}/{action}",
+                defaults: new { controller = "Document", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Organisaion",
                 url: "Dashboard/{controller}/{action}",
                 defaults: new { controller = "Organisation", action = "Index", id = UrlParameter.Optional }

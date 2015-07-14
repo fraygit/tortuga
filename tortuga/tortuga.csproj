@@ -199,6 +199,8 @@
     <Compile Include="Common\Helper\CustomHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
+    <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganisationController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -1219,6 +1221,8 @@
     <Content Include="Views\Partial\Dashboard\Breadcrumb.cshtml" />
     <Content Include="Views\Partial\Dashboard\OrganisationSelection.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
+    <Content Include="Views\Document\Index.cshtml" />
+    <Content Include="Views\Forms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

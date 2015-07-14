@@ -38,33 +38,45 @@
                         <input type="text" class="form-control" placeholder="Field Name">
                     </div>
                 </form>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#add" data-toggle="tab">Add</a></li>
+                        <li><a href="#Edit" data-toggle="tab">Edit</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="add">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Parent</label>
+                                    <select class="form-control" id="drpdpwnParent">
+                                        <option value="0">Root</optionvalue>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Field Name</label>
+                                    <input type="text" class="form-control" id="txtFieldName" placeholder="Field Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Field Type</label>
+                                    <select class="form-control" id="drpdwnFieldType">
+                                        <option>String</option>
+                                        <option>Number</option>
+                                        <option>Boolean</option>
+                                        <option>Document</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="btn-add">Add</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="Edit">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+                
             <footer class="panel-footer">
-                <h4>Add/Edit Fields</h4>
-                <form role="form">
-                    <div class="form-group">
-                        <label>Parent</label>
-                        <select class="form-control">
-                            <option value="0">Root</optionvalue>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Field Name</label>
-                        <input type="text" class="form-control" placeholder="Field Name">
-                    </div>
-                    <div class="form-group">
-                        <label>Field Type</label>
-                        <select class="form-control">
-                            <option>String</option>
-                            <option>Number</option>
-                            <option>Boolean</option>
-                            <option>Document</option>
-                        </select>
-                    </div>
-                </form>
-            </footer>
-            <footer class="panel-footer">
-                <button type="submit" class="btn btn-theme">Submit</button>
+                <button class="btn btn-theme">Save</button>
                 <button type="reset" class="btn">Cancel</button>
             </footer>
         </section>
@@ -72,7 +84,7 @@
     <div class="col-md-8">
         <section class="panel">
             <header class="panel-heading sm">
-                <h2>Preview</h2>
+                <h2>Tree View</h2>
             </header>
             <div class="panel-body">
                 <div class="documentTreeView"></div>
@@ -87,7 +99,7 @@
 
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
         width = 960 - margin.right - margin.left,
-        height = 400 - margin.top - margin.bottom;
+        height = 466 - margin.top - margin.bottom;
 
     var i = 0,
         duration = 750,
@@ -108,37 +120,13 @@
     //d3.json("http://bl.ocks.org/mbostock/raw/4063550/flare.json", function (error, flare) {
       //if (error) throw error;
 
-    var sampleJson = {
-        "Name": "Top Level",
-        "Fields": [
-        {
-            "name": "Field1",
-            "DataType": "String"
-        }],
-        "children": [
-          {
-              "Name": "Level 2: A",
-              "parent": "Top Level",
-              "children": [
-                {
-                    "Name": "Son of A",
-                    "parent": "Level 2: A"
-                },
-                {
-                    "Name": "Daughter of A",
-                    "parent": "Level 2: A"
-                }
-              ]
-          },
-          {
-              "Name": "Level 2: B",
-              "parent": "Top Level"
-          }
-        ]
+    var DocumentDetails = {
+        "Name": "Document 1",
+        "children": []
     };
 
     //root = flare;
-    root = sampleJson;
+    root = DocumentDetails;
       root.x0 = height / 2;
       root.y0 = 0;
 
@@ -255,5 +243,40 @@
       update(d);
     }
 
+    </script>
+    <script>
+        $("#btn-add").click(function () {
+            var documentType = $("#drpdwnFieldType").val();
+            var newFieldName = $("#txtFieldName").val();
+            var parent = $("#drpdpwnParent").val();
+
+            if (documentType == 'Document')
+            {
+                var newDocumentOption = '<option>' + newFieldName + '</option>'
+                $("#drpdpwnParent").append(newDocumentOption);
+            }
+
+            var newField = { "Name": newFieldName, "DataType": documentType };
+            if (DocumentDetails.children == undefined) {
+                DocumentDetails.children = new Array();
+            }
+
+            if (parent == "0") {
+                DocumentDetails.children.push(newField);
+            }
+            else {
+                $.each(DocumentDetails.children, function (i, v) {
+                    if (v.Name == parent) {
+                        if (v.children == undefined) {
+                            v.children = new Array();
+                        }
+                        v.children.push(newField);
+                    }
+                });
+            }
+            root = DocumentDetails;
+            update(root);
+            $("#txtFieldName").val('');
+        });
     </script>
 }

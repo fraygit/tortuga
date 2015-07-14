@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace tortuga.MongoData.Entities.Interface
 {
     public interface IOrganisationRepository : IEntityService<Organisation>
     {
+        Task<Organisation> GetOrganisationByUserName(string organisationName, string username);
     }
 }

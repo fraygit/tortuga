@@ -11,5 +11,6 @@ namespace tortuga.MongoData.Entities.Model
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<string> Users { get; set; }
     }
 }

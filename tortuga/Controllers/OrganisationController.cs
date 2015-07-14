@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using tortuga.Data;
 using System.Net;
 using tortuga.MongoData.Entities.Repository;
+using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace tortuga.Controllers
 {
@@ -22,33 +24,40 @@ namespace tortuga.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(string name, string description)
+        public async Task<ActionResult> Add(string name, string description)
         {
-
-
-            //_context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
-            //using (var data = _context.CreateUnitOfWork())
-            //{
-                //var profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
-
-                //if (!profile.Organisations.Any(n => n.Name == name))
-                //{
-                //    Organisation newOrg = new Organisation {Name = name, Description = description};
-                //    profile.Organisations.Add(newOrg);
-                //    data.SaveChanges();
-                //    return Json(new { success = true, responseText = "Organisation created successfully." }, JsonRequestBehavior.AllowGet);
-                //}
-                //else
-                //{
-                //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //    return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
-                //}
-
+            try
+            {
                 var orgRepo = new OrganisationRepository();
-                orgRepo.Create(new MongoData.Entities.Model.Organisation { Name = "Test", Description = "Test desc" });
-                
-                return Json(new { success = false, responseText = "Organisation already exists." }, JsonRequestBehavior.AllowGet);
-            //}
+
+                var currentUser = new List<string>();
+                currentUser.Add(User.Identity.Name);
+
+                var userCurrentOrganisationByOrgName = await orgRepo.GetOrganisationByUserName(name, User.Identity.Name);
+
+                var result = userCurrentOrganisationByOrgName;
+
+                if (result == null)
+                {
+                    orgRepo.Create(new MongoData.Entities.Model.Organisation
+                    {
+                        Name = name,
+                        Description = description,
+                        Users = currentUser
+                    });
+                    return Json(new { success = true, responseText = "Added." }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { success = false, responseText = "Organisation already exists for this user." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
     }

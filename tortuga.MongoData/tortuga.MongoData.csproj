@@ -52,7 +52,6 @@
     <Compile Include="Entities\Base\MongoEntity.cs" />
     <Compile Include="Entities\Interface\IOrganisationRepository.cs" />
     <Compile Include="Entities\Model\Organisation.cs" />
-    <Compile Include="Entities\Repository\EntityService.cs" />
     <Compile Include="Entities\Repository\OrganisationRepository.cs" />
     <Compile Include="Entities\Service\ConnectionHandler.cs" />
     <Compile Include="Entities\Service\EntityService.cs" />

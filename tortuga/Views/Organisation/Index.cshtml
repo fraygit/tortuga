@@ -59,9 +59,9 @@
                     $(".alert-danger").hide();
                     $(".alert-success").show();
                 },
-                error: function(error) {
+                error: function(xhr, error, errorThrown) {
                     $(".alert-success").hide();
-                    $(".alert-error-message").text(error.responseJSON.responseText);
+                    $(".alert-error-message").text(xhr.responseJSON.responseText);
                     $(".alert-danger").show();
                 }
 

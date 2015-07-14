@@ -30,6 +30,7 @@ namespace tortuga.Controllers
             return View(model);
         }
 
+        [Authorize]
         [ChildActionOnly]
         public ActionResult LeftPane()
         {
@@ -51,6 +52,7 @@ namespace tortuga.Controllers
             return PartialView("~/Views/Partial/Dashboard/Breadcrumb.cshtml", currentPage.Split('/'));
         }
 
+        [Authorize]
         [ChildActionOnly]
         public ActionResult OrganisationSelect()
         {

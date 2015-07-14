@@ -33,7 +33,7 @@ namespace tortuga.Controllers
                 var currentUser = new List<string>();
                 currentUser.Add(User.Identity.Name);
 
-                var userCurrentOrganisationByOrgName = await orgRepo.GetOrganisationByUserName(name, User.Identity.Name);
+                var userCurrentOrganisationByOrgName = await orgRepo.GetOrganisation(name, User.Identity.Name);
 
                 var result = userCurrentOrganisationByOrgName;
 

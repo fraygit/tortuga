@@ -1,4 +1,6 @@
-﻿@{
+﻿@using tortuga.MongoData.Entities.Model;
+@model List<Organisation>
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -6,3 +8,13 @@
 <h2>Index</h2>
 
 This is my page..
+@if (Model != null) 
+{ 
+foreach (var org in Model)
+{
+    <ul>
+        <li>@org.Name</li>
+    </ul>
+}
+}
+

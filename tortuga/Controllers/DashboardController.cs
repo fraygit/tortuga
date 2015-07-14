@@ -7,6 +7,8 @@ using System.Web.Security;
 using Mindscape.LightSpeed;
 using tortuga.Data;
 using tortuga.Models;
+using System.Threading.Tasks;
+using tortuga.MongoData.Entities.Repository;
 
 namespace tortuga.Controllers
 {
@@ -17,25 +19,15 @@ namespace tortuga.Controllers
         //
         // GET: /Dashboard/
         [Authorize]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            _context = new LightSpeedContext<TortugaModelUnitOfWork>("default");
-            using (var data = _context.CreateUnitOfWork())
-            {
-                //User.Identity
-                var profile = data.UserProfiles.Single(n => n.UserName == User.Identity.Name);
-                
-                //var org = data.Organisations.Where(n => n.UserProfiles.Any(y => y.UserName == User.Identity.Name));
-                if (!profile.Organisations.Any())
-                {
-                    //var profile = data.FindById()
-                    Organisation newOrg = new Organisation {Name = "test org"};
-                    profile.Organisations.Add(newOrg);
-                    data.SaveChanges();
-                }
-            }
+            var orgRepo = new OrganisationRepository();
 
-            return View();
+            var currentUser = new List<string>();
+            currentUser.Add(User.Identity.Name);
+
+            var model = await orgRepo.GetOrganisations(User.Identity.Name);
+            return View(model);
         }
 
         [ChildActionOnly]

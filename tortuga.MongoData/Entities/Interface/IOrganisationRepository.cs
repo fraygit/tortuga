@@ -11,6 +11,7 @@ namespace tortuga.MongoData.Entities.Interface
 {
     public interface IOrganisationRepository : IEntityService<Organisation>
     {
-        Task<Organisation> GetOrganisationByUserName(string organisationName, string username);
+        Task<Organisation> GetOrganisation(string organisationName, string username);
+        Task<List<Organisation>> GetOrganisations(string username);
     }
 }

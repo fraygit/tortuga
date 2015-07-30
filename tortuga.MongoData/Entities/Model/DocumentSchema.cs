@@ -17,6 +17,7 @@ namespace tortuga.MongoData.Entities.Model
     {
         public String Name { get; set; }
         public DataType DataType { get; set; }
+        public Guid FieldGuid { get; set; }
         public List<Field> Fields { get; set; }
     }
 

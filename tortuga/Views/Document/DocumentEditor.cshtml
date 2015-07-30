@@ -4,60 +4,6 @@
 }
 @model tortuga.MongoData.Entities.Model.DocumentSchema
 
-<style>
-    #navcontainer ul
-{
-margin: 0;
-padding: 0;
-list-style-type: none;
-}
-
-#navcontainer .document-item
-{
-display: block;
-color: #FFF;
-background-color: #036;
-width: 50%;
-padding: 3px 12px 3px 8px;
-text-decoration: none;
-border-bottom: 1px solid #fff;
-font-weight: bold;
-}
-
-#navcontainer .document-item:hover
-{
-background-color: #369;
-color: #FFF;
-}
-
-#navcontainer li li .document-item
-{
-display: block;
-color: #FFF;
-background-color: #69C;
-width: 50%;
-padding: 3px 3px 3px 17px;
-text-decoration: none;
-border-bottom: 1px solid #fff;
-font-weight: normal;
-}
-
-#navcontainer li li li .document-item
-{
-display: block;
-color: #FFF;
-background-color: #69C;
-width: 50%;
-padding: 3px 3px 3px 25px;
-text-decoration: none;
-border-bottom: 1px solid #fff;
-font-weight: normal;
-}
-
-
-</style>
-
-
 <div class="row">
     <div class="col-md-12">
         <section class="panel">
@@ -75,25 +21,9 @@ font-weight: normal;
                         <ul class="root">
                             <li>
                                 <div class="document-item">
-                                    @Model.Name
-
+                                    @Model.Name 
                                 </div>
-                                @DisplayItemList(Model.Fields)
-
-
-
-                                @*<ul>
-                                    <li>
-                                        <div class="document-item">sdf <i>(string)</i></div>
-                                        <ul>
-                                            <li>
-                                                <div class="document-item">
-                                                    sdfsd
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>*@
+                                <div class="listPanel"></div>
                             </li>
                         </ul>
                     </div>
@@ -110,21 +40,22 @@ font-weight: normal;
         </section>
     </div>
 </div>
-@helper DisplayItemList(List<tortuga.MongoData.Entities.Model.Field> fields) 
-{
-    if (fields != null) 
-    { 
-        if (fields.Any())
-        {
-            <ul>
-                @foreach (var field in fields)
-                {
-                    <li>
-                        <div class="document-item">@field.Name <i>(@field.DataType)</i></div>
-                        @DisplayItemList(field.Fields)
-                    </li>
-                }
-            </ul>
-        }
-    }
+@section Scripts {
+    <script language="javascript">
+    var documentSchema = @Html.Raw(Json.Encode(Model));
+
+        $(document).ready(function(){
+            $.ajax({
+                url: '@Url.Action("ListFields", "Document")',
+                data: JSON.stringify(documentSchema),
+                contentType: 'application/json',
+                type: 'POST',
+                dataType: 'HTML'
+            }).success(function(result){
+                $(".listPanel").html(result);
+            });
+        });
+
+    </script>
+    
 }

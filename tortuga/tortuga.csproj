@@ -1224,6 +1224,7 @@
     <Content Include="Views\Document\Index.cshtml" />
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Document\DocumentEditor.cshtml" />
+    <Content Include="Views\Document\ListFields.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

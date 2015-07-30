@@ -17,6 +17,12 @@ namespace tortuga.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ListFields(DocumentSchema documentSchema)
+        {
+            return View(documentSchema);
+        }
+
         public ActionResult DocumentEditor()
         {
             DocumentSchema document = new DocumentSchema();
@@ -25,19 +31,21 @@ namespace tortuga.Controllers
             fieds.Add(new Field
             {
                 DataType = DataType.String,
-                Name = "Item Name"
+                Name = "Item Name",
+                FieldGuid = Guid.NewGuid()
             });
             fieds.Add(new Field
             {
                 DataType = DataType.String,
-                Name = "Item Description"
+                Name = "Item Description",
+                FieldGuid = Guid.NewGuid()
             });
 
 
             var subProducts = new List<Field>();
-            subProducts.Add(new Field { Name = "Name", DataType = DataType.String });
-            subProducts.Add(new Field { Name = "Description", DataType = DataType.String });
-            subProducts.Add(new Field { Name = "Quantity", DataType = DataType.Number });
+            subProducts.Add(new Field { Name = "Name", DataType = DataType.String, FieldGuid = Guid.NewGuid() });
+            subProducts.Add(new Field { Name = "Description", DataType = DataType.String, FieldGuid = Guid.NewGuid() });
+            subProducts.Add(new Field { Name = "Quantity", DataType = DataType.Number, FieldGuid = Guid.NewGuid() });
 
             fieds.Add(new Field
             {

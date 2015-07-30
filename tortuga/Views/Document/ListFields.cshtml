@@ -21,15 +21,19 @@
         font-weight: bold;
     }
 
+    #navcontainer a {
+        color: #FFF;
+    }
+
         #navcontainer .document-item:hover {
-            background-color: #369;
+            background-color: #333;
             color: #FFF;
         }
 
     #navcontainer li li .document-item {
         display: block;
         color: #FFF;
-        background-color: #6f7b8a;
+        background-color: #333;
         width: 50%;
         padding: 3px 3px 3px 17px;
         text-decoration: none;
@@ -40,7 +44,7 @@
     #navcontainer li li li .document-item {
         display: block;
         color: #FFF;
-        background-color: #6f7b8a;
+        background-color: #333;
         width: 50%;
         padding: 3px 3px 3px 25px;
         text-decoration: none;
@@ -53,6 +57,19 @@
 
 @DisplayItemList(Model.Fields)
 
+<div id="md-normal" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none; margin-top: -63px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">Modals normal</h4>
+    </div>
+    <!-- //modal-header-->
+    <div class="modal-body">
+        <p>One fine body…</p>
+    </div>
+    <!-- //modal-body-->
+</div>
+
+
 @helper DisplayItemList(List<tortuga.MongoData.Entities.Model.Field> fields)
 {
     if (fields != null)
@@ -64,7 +81,8 @@
                 {
                     <li>
                         <div class="document-item" data-document-guid="@field.FieldGuid">
-                            @field.Name <i>(@field.DataType)</i>
+                            <a href="" data-toggle="modal" data-target="#md-normal"><b>@field.Name</b></a>
+                                <i>(@field.DataType)</i>
                             <div class="pull-right">
                                 <a href="#"><i class="fa fa-minus-circle" style="color:#f35958;"></i></a>
                             </div>

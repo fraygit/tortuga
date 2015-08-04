@@ -54,6 +54,20 @@
             }).success(function(result){
                 $(".listPanel").html(result);
             });
+
+            $("body").on("click", ".document-item a", function (e) {
+                e.preventDefault();
+                var fieldGuid = $(this).data("document-guid");
+                
+                $.each(documentSchema.Fields, function(index, item){
+                    if (item.FieldGuid ==  fieldGuid){
+                        $("#txtFieldName").val(item.Name);
+                    }
+                });                
+
+                $("#md-normal").modal('show');
+            });
+
         });
 
     </script>

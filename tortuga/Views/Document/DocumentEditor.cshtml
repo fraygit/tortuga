@@ -58,15 +58,30 @@
             $("body").on("click", ".document-item a", function (e) {
                 e.preventDefault();
                 var fieldGuid = $(this).data("document-guid");
-                
-                $.each(documentSchema.Fields, function(index, item){
-                    if (item.FieldGuid ==  fieldGuid){
-                        $("#txtFieldName").val(item.Name);
-                    }
-                });                
+
+                SearchField(fieldGuid, documentSchema.Fields, function(field){
+                    $("#txtFieldName").val(field.Name);
+                });           
 
                 $("#md-normal").modal('show');
             });
+
+            function SearchField(fieldGuid, fields, cb){
+                $.each(fields, function(index, item){
+                    if (item.FieldGuid ==  fieldGuid)
+                    {
+                        cb(item);
+                        return false;
+                    }
+                    if (item.Fields != null){
+                        SearchField(fieldGuid, item.Fields, function(d){
+                            cb(d);
+                            return false;
+                        });
+                    }
+
+                });                
+            }
 
         });
 

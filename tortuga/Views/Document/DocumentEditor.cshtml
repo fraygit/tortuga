@@ -59,23 +59,45 @@
                 e.preventDefault();
                 var fieldGuid = $(this).data("document-guid");
 
-                SearchField(fieldGuid, documentSchema.Fields, function(field){
+                SearchField("Root", fieldGuid, documentSchema.Fields, function(field, rootName){
                     $("#txtFieldName").val(field.Name);
+                    $("#txtRoot").val(rootName);
+
+                    var selectedDataType = GetCurrentDataType(field);
+                    $("#dropDataType").val(selectedDataType);
+                    $("#FieldDetails").data("field-guid", field.FieldGuid);
                 });           
 
                 $("#md-normal").modal('show');
             });
 
-            function SearchField(fieldGuid, fields, cb){
+            function GetCurrentDataType(field){
+                var selectedDataType;
+                switch(field.DataType){
+                    case 0:
+                        selectedDataType = "String";
+                        break;
+                    case 1:
+                        selectedDataType = "Number";
+                        break;
+                    case 3:
+                        selectedDataType = "Document";
+                        break;
+                }
+                return selectedDataType;
+            }
+
+            function SearchField(parentname, fieldGuid, fields, cb){
+                var root = parentname;
                 $.each(fields, function(index, item){
-                    if (item.FieldGuid ==  fieldGuid)
+                    if (item.FieldGuid == fieldGuid)
                     {
-                        cb(item);
+                        cb(item, root);
                         return false;
                     }
                     if (item.Fields != null){
-                        SearchField(fieldGuid, item.Fields, function(d){
-                            cb(d);
+                        SearchField(item.Name, fieldGuid, item.Fields, function(d, pr){
+                            cb(d, pr);
                             return false;
                         });
                     }

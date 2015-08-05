@@ -34,7 +34,7 @@
             </div>
 
             <footer class="panel-footer">
-                <button type="button" class="btn btn-theme" id="btn-save">Save Document</button>
+                <button type="button" class="btn btn-primary" id="btn-save">Save Document</button>
                 <button type="reset" class="btn">Cancel</button>
             </footer>
         </section>
@@ -45,15 +45,20 @@
     var documentSchema = @Html.Raw(Json.Encode(Model));
 
         $(document).ready(function(){
-            $.ajax({
-                url: '@Url.Action("ListFields", "Document")',
-                data: JSON.stringify(documentSchema),
-                contentType: 'application/json',
-                type: 'POST',
-                dataType: 'HTML'
-            }).success(function(result){
-                $(".listPanel").html(result);
-            });
+
+            LoadFieldList(documentSchema);
+
+            function LoadFieldList(documentSchemaToLoad){
+                $.ajax({
+                    url: '@Url.Action("ListFields", "Document")',
+                    data: JSON.stringify(documentSchemaToLoad),
+                    contentType: 'application/json',
+                    type: 'POST',
+                    dataType: 'HTML'
+                }).success(function(result){
+                    $(".listPanel").html(result);
+                });
+            }
 
             $("body").on("click", ".document-item a", function (e) {
                 e.preventDefault();
@@ -71,6 +76,18 @@
                 $("#md-normal").modal('show');
             });
 
+            $("body").on("click", "#btnSaveField", function(){
+                var fieldGuid = $("#FieldDetails").data("field-guid");
+                SearchField("Root", fieldGuid, documentSchema.Fields, function(field, rootName){
+                    field.Name = "ss";
+                    UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
+                        $("#md-normal").modal('hide');
+                        var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
+                        LoadFieldList(newDocumentSchema);
+                    });
+                });
+            });
+
             function GetCurrentDataType(field){
                 var selectedDataType;
                 switch(field.DataType){
@@ -85,6 +102,23 @@
                         break;
                 }
                 return selectedDataType;
+            }
+
+            function UpdateDocumentSchema (fields, fieldGuid, callback){
+                var newFields = [];
+                $.each(fields, function(index, item){
+                    if (item.FieldGuid == fieldGuid)
+                    {
+                        item.Name = $("#txtFieldName").val();
+                    }
+                    if (item.Fields != null){
+                        UpdateDocumentSchema(item.Fields, fieldGuid, function(newChildFields){
+                            item.Fields = newChildFields;
+                        });
+                    }
+                    newFields.push(item);
+                });
+                callback(newFields);
             }
 
             function SearchField(parentname, fieldGuid, fields, cb){

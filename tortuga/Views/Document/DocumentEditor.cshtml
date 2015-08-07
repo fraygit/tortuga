@@ -40,15 +40,53 @@
         </section>
     </div>
 </div>
+
+<div id="md-normal" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none; margin-top: -63px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">Field Details</h4>
+    </div>
+    <!-- //modal-header-->
+    <div class="modal-body">
+        <form>
+            <div id="FieldDetails" data-field-guid=""></div>
+            <div class="form-group">
+                <label for="txtFieldName">Parent</label>
+                <input lass="form-control" id="txtRoot" value="Root" disabled>
+            </div>
+            <div class="form-group">
+                <label for="txtFieldName">Field Name</label>
+                <input class="form-control" id="txtFieldName" placeholder="Field Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Data Type</label>
+                <select class="form-control" id="dropDataType">
+                    <option>String</option>
+                    <option>Number</option>
+                    <option>Date</option>
+                    <option>Document</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnSaveField">Save</button>
+        </form>
+    </div>
+    <!-- //modal-body-->
+</div>
+
+
 @section Scripts {
     <script language="javascript">
     var documentSchema = @Html.Raw(Json.Encode(Model));
 
         $(document).ready(function(){
 
+            var defUpdateDocumentSchema;
+
+            console.log('load initial');
             LoadFieldList(documentSchema);
 
             function LoadFieldList(documentSchemaToLoad){
+                $(".listPanel").html('loading..');
                 $.ajax({
                     url: '@Url.Action("ListFields", "Document")',
                     data: JSON.stringify(documentSchemaToLoad),
@@ -56,6 +94,7 @@
                     type: 'POST',
                     dataType: 'HTML'
                 }).success(function(result){
+                    documentSchema = documentSchemaToLoad;
                     $(".listPanel").html(result);
                 });
             }
@@ -74,18 +113,18 @@
                 });           
 
                 $("#md-normal").modal('show');
+                return false;
             });
 
             $("body").on("click", "#btnSaveField", function(){
                 var fieldGuid = $("#FieldDetails").data("field-guid");
-                SearchField("Root", fieldGuid, documentSchema.Fields, function(field, rootName){
-                    field.Name = "ss";
-                    UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
-                        $("#md-normal").modal('hide');
-                        var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
-                        LoadFieldList(newDocumentSchema);
-                    });
+                UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
+                    $("#md-normal.in").modal('hide');
+                    var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
+                    console.log('load update');
+                    LoadFieldList(newDocumentSchema);
                 });
+                return false;
             });
 
             function GetCurrentDataType(field){

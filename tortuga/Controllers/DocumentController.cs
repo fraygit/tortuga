@@ -51,7 +51,8 @@ namespace tortuga.Controllers
             {
                 DataType = DataType.Document,
                 Name = "Sub Products",
-                Fields = subProducts
+                Fields = subProducts,
+                FieldGuid = Guid.NewGuid()
             });
             document.Fields = fieds;
 

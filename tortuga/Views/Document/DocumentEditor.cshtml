@@ -28,7 +28,7 @@
                         </ul>
                     </div>
 
-                    <button type="button" class="btn btn-primary">Add a Field</button>
+                    <button type="button" class="btn btn-primary" id="btn-AddField">Add a Field</button>
 
                 </form>
             </div>
@@ -49,7 +49,7 @@
     <!-- //modal-header-->
     <div class="modal-body">
         <form>
-            <div id="FieldDetails" data-field-guid=""></div>
+            <div id="FieldDetails" data-field-guid="" data-save-mode="update"></div>
             <div class="form-group">
                 <label for="txtFieldName">Parent</label>
                 <input lass="form-control" id="txtRoot" value="Root" disabled>
@@ -101,14 +101,26 @@
 
             $("body").on("click", ".document-item a", function (e) {
                 e.preventDefault();
-                var fieldGuid = $(this).data("document-guid");
+                var parentField = $(this).data("parent-field");
+                var isAddChildField = parentField != undefined || parentField != null;
+               
+                var fieldGuid =  isAddChildField ? parentField : $(this).data("document-guid");
 
                 SearchField("Root", fieldGuid, documentSchema.Fields, function(field, rootName){
-                    $("#txtFieldName").val(field.Name);
-                    $("#txtRoot").val(rootName);
 
-                    var selectedDataType = GetCurrentDataType(field);
-                    $("#dropDataType").val(selectedDataType);
+                    if (!isAddChildField){ // update existing field
+                        $("#FieldDetails").data("save-mode", "update");
+                        $("#txtFieldName").val(field.Name);
+                        $("#txtRoot").val(rootName);
+
+                        var selectedDataType = GetCurrentDataType(field);
+                        $("#dropDataType").val(selectedDataType);
+                    }
+                    else{ // add child field of an existing document type
+                        $("#FieldDetails").data("save-mode", "add-child-field");
+                        $("#txtRoot").val(field.Name);
+                        $("#txtFieldName").val("");
+                    }
                     $("#FieldDetails").data("field-guid", field.FieldGuid);
                 });           
 
@@ -118,12 +130,32 @@
 
             $("body").on("click", "#btnSaveField", function(){
                 var fieldGuid = $("#FieldDetails").data("field-guid");
-                UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
-                    $("#md-normal.in").modal('hide');
-                    var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
-                    console.log('load update');
-                    LoadFieldList(newDocumentSchema);
-                });
+                switch($("#FieldDetails").data("save-mode")){
+                    case "update":
+                        UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
+                            //$("#md-normal.in").modal('hide');
+                            var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
+                            console.log('load update');
+                            LoadFieldList(newDocumentSchema);
+                        });
+                        break;
+                    case "add" : 
+                        var newField = {Name : $("#txtFieldName").val(), DataType: 0};
+                        documentSchema.Fields.push(newField);
+                        LoadFieldList(documentSchema);
+                        break;
+                    case "add-child-field" :
+                        break;
+                }
+
+                $("#md-normal").modal('hide');
+                return false;
+            });
+
+            $("body").on("click", "#btn-AddField", function(){
+                $("#FieldDetails").data("save-mode", "add");
+                $("#txtFieldName").val('');
+                $("#md-normal").modal('show');
                 return false;
             });
 

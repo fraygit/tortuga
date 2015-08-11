@@ -73,6 +73,10 @@
                         <div class="document-item" data-document-guid="@field.FieldGuid">
                             <a href="#" id="edit-field" data-document-guid="@field.FieldGuid"><b>@field.Name</b></a>
                                 <i>(@field.DataType)</i>
+                                @if (field.DataType == tortuga.MongoData.Entities.Model.DataType.Document)
+                                {
+                                    <a href="#" id="Add-Field-Child" data-parent-field="@field.FieldGuid">Add Fields</a>
+                                }
                             <div class="pull-right">
                                 <a href="#"><i class="fa fa-minus-circle" style="color:#f35958;"></i></a>
                             </div>

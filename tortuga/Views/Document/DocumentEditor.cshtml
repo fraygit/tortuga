@@ -132,7 +132,7 @@
                 var fieldGuid = $("#FieldDetails").data("field-guid");
                 switch($("#FieldDetails").data("save-mode")){
                     case "update":
-                        UpdateDocumentSchema (documentSchema.Fields, fieldGuid, function(newFields){
+                        UpdateDocumentSchema (documentSchema.Fields, fieldGuid, false, function(newFields){
                             //$("#md-normal.in").modal('hide');
                             var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
                             console.log('load update');
@@ -145,6 +145,12 @@
                         LoadFieldList(documentSchema);
                         break;
                     case "add-child-field" :
+                        UpdateDocumentSchema (documentSchema.Fields, fieldGuid, true, function(newFields){
+                            //$("#md-normal.in").modal('hide');
+                            var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
+                            console.log('load update');
+                            LoadFieldList(newDocumentSchema);
+                        });
                         break;
                 }
 
@@ -175,15 +181,23 @@
                 return selectedDataType;
             }
 
-            function UpdateDocumentSchema (fields, fieldGuid, callback){
+            function UpdateDocumentSchema (fields, fieldGuid, isAddChildField, callback){
                 var newFields = [];
                 $.each(fields, function(index, item){
                     if (item.FieldGuid == fieldGuid)
                     {
-                        item.Name = $("#txtFieldName").val();
+                        if (!isAddChildField){
+                            item.Name = $("#txtFieldName").val();
+                        }
+                        else{
+                            if (item.Fields == null || item.Fields == undefined){
+                                item.Fields = [];
+                            }
+                            item.Fields.push({DataType:0, Name: $("#txtFieldName").val()});
+                        }
                     }
                     if (item.Fields != null){
-                        UpdateDocumentSchema(item.Fields, fieldGuid, function(newChildFields){
+                        UpdateDocumentSchema(item.Fields, fieldGuid, isAddChildField, function(newChildFields){
                             item.Fields = newChildFields;
                         });
                     }

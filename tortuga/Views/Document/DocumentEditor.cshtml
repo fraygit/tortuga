@@ -133,20 +133,18 @@
                 switch($("#FieldDetails").data("save-mode")){
                     case "update":
                         UpdateDocumentSchema (documentSchema.Fields, fieldGuid, false, function(newFields){
-                            //$("#md-normal.in").modal('hide');
                             var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
                             console.log('load update');
                             LoadFieldList(newDocumentSchema);
                         });
                         break;
                     case "add" : 
-                        var newField = {Name : $("#txtFieldName").val(), DataType: 0};
+                        var newField = {Name : $("#txtFieldName").val(), DataType: GetDataType($("#dropDataType").val()), FieldGuid: generateUUID()};
                         documentSchema.Fields.push(newField);
                         LoadFieldList(documentSchema);
                         break;
                     case "add-child-field" :
                         UpdateDocumentSchema (documentSchema.Fields, fieldGuid, true, function(newFields){
-                            //$("#md-normal.in").modal('hide');
                             var newDocumentSchema = {Name : documentSchema.Name, Id: documentSchema.Id, Fields: newFields};
                             console.log('load update');
                             LoadFieldList(newDocumentSchema);
@@ -157,6 +155,35 @@
                 $("#md-normal").modal('hide');
                 return false;
             });
+
+            function GetDataType(type){
+                var typeId = 0;
+                switch(type){
+                    case "String":
+                        typeId = 0;
+                        break;
+                    case "Number":
+                        typeId = 1;
+                        break;
+                    case "Date":
+                        typeId = 2;
+                        break;
+                    case "Document":
+                        typeId = 3;
+                        break;
+                }
+                return typeId;
+            }
+
+            function generateUUID() {
+                var d = new Date().getTime();
+                var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = (d + Math.random()*16)%16 | 0;
+                    d = Math.floor(d/16);
+                    return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+                });
+                return uuid;
+            };
 
             $("body").on("click", "#btn-AddField", function(){
                 $("#FieldDetails").data("save-mode", "add");
@@ -173,6 +200,9 @@
                         break;
                     case 1:
                         selectedDataType = "Number";
+                        break;
+                    case 2:
+                        selectedDataType = "Date";
                         break;
                     case 3:
                         selectedDataType = "Document";

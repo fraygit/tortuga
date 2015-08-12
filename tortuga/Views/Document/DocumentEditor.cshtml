@@ -223,7 +223,7 @@
                             if (item.Fields == null || item.Fields == undefined){
                                 item.Fields = [];
                             }
-                            item.Fields.push({DataType:0, Name: $("#txtFieldName").val()});
+                            item.Fields.push({DataType:0, Name: $("#txtFieldName").val(), DataType: GetDataType($("#dropDataType").val()), FieldGuid: generateUUID()});
                         }
                     }
                     if (item.Fields != null){

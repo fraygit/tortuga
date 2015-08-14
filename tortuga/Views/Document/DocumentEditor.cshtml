@@ -106,6 +106,12 @@
                
                 var fieldGuid =  isAddChildField ? parentField : $(this).data("document-guid");
 
+                if ($(this).data("mode") == "delete"){
+                    DeleteField(fieldGuid, documentSchema.Fields);
+                    LoadFieldList(documentSchema);
+                    return false;
+                }
+
                 SearchField("Root", fieldGuid, documentSchema.Fields, function(field, rootName){
 
                     if (!isAddChildField){ // update existing field
@@ -234,6 +240,20 @@
                     newFields.push(item);
                 });
                 callback(newFields);
+            }
+
+            function DeleteField(fieldGuid, fields){
+                $.each(fields, function(index, item){
+                    if (item.FieldGuid == fieldGuid)
+                    {
+                        fields.splice(index, 1);
+                        return false;
+                    }
+                    if (item.Fields != null){
+                        DeleteField(fieldGuid, item.Fields);
+                    }
+
+                });                
             }
 
             function SearchField(parentname, fieldGuid, fields, cb){

@@ -101,7 +101,7 @@
                                     <a href="#" id="Add-Field-Child" data-parent-field="@field.FieldGuid">Add Fields</a>
                                 }
                             <div class="pull-right">
-                                <a href="#"><i class="fa fa-minus-circle" style="color:#f35958;"></i></a>
+                                <a href="#" data-document-guid="@field.FieldGuid" data-mode="delete"><i class="fa fa-minus-circle" style="color:#f35958;"></i></a>
                             </div>
                         </div>
                         @DisplayItemList(field.Fields)
